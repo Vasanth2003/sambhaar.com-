@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.perspective {
+  perspective: 1500px;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.dot-1 {
+  animation: blink 1s infinite;
+}
+.dot-2 {
+  animation: blink 1s infinite;
+  animation-delay: 0.2s;
+}
+.dot-3 {
+  animation: blink 1s infinite;
+  animation-delay: 0.4s;
+}
+
+
+.categorySwiper .swiper-button-next,
+.categorySwiper .swiper-button-prev{
+    color: black;
+    width: 28px;
+    height: 28px;
+}
+
+.categorySwiper .swiper-button-next:after,
+.categorySwiper .swiper-button-prev:after{
+    font-size: 16px;
+    font-weight: bold;
+}

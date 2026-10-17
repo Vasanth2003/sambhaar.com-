@@ -1,0 +1,184 @@
+import React, { useState } from "react";
+import RatingStars from "../RatingStars";
+import SingleProductPopup from "./SingleProduct";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart,
+  updateQuantity,
+  removeFromCart,
+} from "../../redux/features/cart/cartSlice";
+
+const ProductCards = ({ products }) => {
+  const dispatch = useDispatch();
+  // console.log(products);
+  
+  // Handle Add to Cart
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
+  // Handle Quantity Update (Increment / Decrement)
+  const handleQuantity = (type, id) => {
+    const itemInCart = findProductInCart(id);
+    if (type === "increment") {
+      dispatch(updateQuantity({ type, id }));
+    } else if (type === "decrement") {
+      if (itemInCart && itemInCart.quantity === 1) {
+        dispatch(removeFromCart({ id }));
+      } else {
+        dispatch(updateQuantity({ type, id }));
+      }
+    }
+  };
+
+  // Get products in the cart from the Redux store
+  const productIn = useSelector((state) => state.cart.products);
+
+  // Helper function to find a product in the cart
+  const findProductInCart = (id) => {
+    return productIn.find((product) => product._id === id) || null;
+  };
+
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const openModal = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => setIsModalOpen(false);
+
+  return (
+    <>
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 p-2 sm:p-4">
+        {products?.length > 0 && products?.map((product, index) => {
+          const cartItem = findProductInCart(product._id);
+
+          return (
+            <article
+              key={index}
+              className="product-card h-full cursor-pointer overflow-hidden rounded-md border border-border-200 bg-white transition-shadow duration-200 hover:shadow-sm flex flex-col"
+              onClick={()=>{
+                if(!product.soldout)
+                   openModal(product)
+              }
+                }
+            >
+              {/* Product Image */}
+              <div className="relative flex items-center justify-center h-40 sm:h-48 md:h-56 lg:h-52 group overflow-hidden">
+                {product.oldPrice && product.price && (
+                  <div
+                    className="absolute top-0 left-0 text-white rounded-br-lg px-2 py-1 text-center w-10 z-10"
+                    style={{
+                      background: "linear-gradient(135deg, #ff5722, #ffa726)",
+                    }}
+                  >
+                    <span className="block text-xs font-bold">
+                      {Math.round(
+                        ((product.oldPrice - product.price) /
+                          product.oldPrice) *
+                          100
+                      )}
+                      %
+                    </span>
+                    <p className="text-[10px] leading-tight">Off</p>
+                  </div>
+                )}
+                    {product.soldout && 
+                    <div className="absolute z-10  bg-gray-200 bg-opacity-30 w-full flex items-center justify-center h-full">
+                      <h4 className="text-red-700 font-bold text-3xl">Sold Out</h4>
+                    </div>
+                  }
+
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className={`block h-full w-full object-contain transition-transform duration-300 ${!product.soldout ? 'group-hover:scale-110' : ' blur-sm -z-0'}`}                  
+                  loading="lazy"
+                />
+              </div>
+
+              {/* Product Details */}
+              <header className="p-3 text-start md:p-6 flex flex-col justify-between flex-grow">
+                <h3 className="mb-2 truncate text-sm font-semibold text-heading ">
+                  {product.name}
+
+                </h3>
+
+                {product.weight != "0" && (
+                  <h4 className="text-xs text-gray-500 mb-2">
+                    {product.weight}
+                  </h4>
+                )}
+
+                <div className="flex flex-col sm:flex-row items-center justify-between mt-auto">
+                  {/* Pricing */}
+                  <div className="flex-col gap-1 items-center">
+                    {product.oldPrice && (
+                      <del className="text-xs text-gray-500">
+                        ₹{product.oldPrice}
+                      </del>
+                    )}
+                    <div className="text-sm font-semibold text-primary">
+                      ₹{product.price}{" "}
+                      
+                    </div>
+                  </div>
+                  {/* Cart Actions */}
+                 {product.soldout ? (
+                    <div className="mt-2 text-sm font-bold absolute translate-x-1/2     text-red-600">
+                      
+                    </div>
+                  ) : cartItem ? (
+                    <div className="mt-2 flex items-center justify-center text-sm font-semibold bg-gradient-to-br from-orange-600 to-orange-400 transition duration-200 text-gray-50 border rounded-full">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleQuantity("decrement", product._id);
+                        }}
+                        className="pl-2 pr-2 py-2 rounded-l-full hover:bg-primary"
+                      >
+                        -
+                      </button>
+                      <span className="px-4">{cartItem.quantity}</span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleQuantity("increment", product._id);
+                        }}
+                        className="pr-2 pl-2 py-2 rounded-r-full hover:bg-primary"
+                      >
+                        +
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        dispatch(handleAddToCart(product));
+                      }}
+                      className="flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-full text-orange-600 border border-orange-600 bg-transparent hover:bg-primary transition duration-200 hover:text-gray-50"
+                    >
+                      <i className="ri-shopping-basket-fill"></i>
+                      <span className="pl-2">Cart</span>
+                    </button>
+                  )}
+
+                </div>
+              </header>
+            </article>
+          );
+        })}
+      </div>
+
+      {/* Popup Modal */}
+      {isModalOpen && (
+        <SingleProductPopup product={selectedProduct} onClose={closeModal} />
+      )}
+    </>
+  );
+};
+
+export default ProductCards;

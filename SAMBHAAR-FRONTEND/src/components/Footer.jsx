@@ -1,0 +1,224 @@
+import React from "react";
+import GooglePlay from "../assets/play-store-btn.png";
+import ApplePlay from "../assets/app-store-btn.png";
+import { useNavigate } from "react-router-dom";
+
+const Footer = () => {
+  const navigate = useNavigate();
+
+  const quickLinks = [
+    { name: "Home", path: "/" },
+    { name: "About Us", path: "/about" },
+    { name: "Privacy Policy", path: "/privacy" },
+    { name: "Terms & Conditions", path: "/termsandconditions" },
+    { name: "Return & Refund Policy", path: "/returnandrefund" },
+    { name: "FAQ", path: "/faq" },
+    { name: "Blog", path: "/blog" },
+    { name: "Contact Us", path: "/contact" },
+  ];
+
+  const shopNowLinks = [
+    { name: "Grocery Essentials", path: "Grocery Essentials" },
+    { name: "Dairy & Fresh Foods", path: "Dairy & Fresh Foods" },
+    { name: "Oils & Condiments", path: "Oils & Condiments" },
+    { name: "Sweets & Savouries", path: "Sweets & Savouries" },
+    { name: "Beverages & Frozen Foods", path: "Beverages & Frozen Foods" },
+    { name: "Health & Personal Care", path: "Health & Personal Care" },
+    { name: "Cleaning & Household", path: "Cleaning & Household" },
+    { name: "Pooja Essentials", path: "Pooja Essentials" },
+    { name: "Stationery & Fancy Items", path: "Stationery & Fancy Items" },
+  ];
+
+  const accountLinks = [
+    { name: "Login", path: "/login" },
+    { name: "Register", path: "/register" },
+    { name: "Reset Password", path: "/forgot" },
+  ];
+
+  return (
+    <footer className="border-t-4 border-[#EA580C] bg-gradient-to-br from-gray-50 to-gray-100 text-black py-8 md:py-12 mx-auto">
+      <div className="max-w-6xl mx-auto sm:px-16 md:px-12 lg:px-4 grid gap-6 lg:grid-cols-5 sm:grid-cols-2 grid-cols-1">
+        {/* Contact Us Section */}
+        <div className="text-center sm:text-left">
+          <h4 className="text-lg md:text-xl font-bold mb-2 md:mb-4">
+            Contact Us
+          </h4>
+          <div className="space-y-2">
+            <p className="text-sm">
+              <i className="ri-map-pin-fill mr-2 ri-lg text-primary"></i>Thoraipakkam | Perumbakkam 
+            </p>
+            <p className="text-sm">
+              <i className="ri-mail-open-fill mr-2 ri-lg text-primary"></i>
+              support@sambhaar.com
+            </p>
+            <p className="text-sm">
+              <i className="ri-phone-fill mr-2 ri-lg text-primary"></i>+91
+              818181 9368
+            </p>
+            <p className="text-sm">
+              <i className="ri-phone-fill mr-2 ri-lg text-primary"></i>+91
+              818181 2912
+            </p>
+          </div>
+        </div>
+
+        {/* Quick Links Section */}
+        <div className="text-center sm:text-left">
+          <h4 className="text-lg md:text-xl font-bold mb-2 md:mb-4">
+            Quick Links
+          </h4>
+          <ul className="space-y-2">
+            {quickLinks.map((link) => (
+              <li key={link.name}>
+                <span
+                  onClick={() => navigate(link.path)}
+                  className="text-sm hover:text-primary cursor-pointer"
+                >
+                  {link.name}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Shop Now Section */}
+        <div className="text-center sm:text-left">
+          <h4 className="text-lg md:text-xl font-bold mb-2 md:mb-4">
+            Shop Now
+          </h4>
+          <ul className="space-y-2">
+            {shopNowLinks.map((item) => (
+              <li key={item.name}>
+                <span
+                  onClick={() => navigate(`/category/${item.path}`)}
+                  className="text-sm hover:text-primary cursor-pointer"
+                >
+                  {item.name}
+                </span>
+                {/* <p className="text-sm hover:text-primary">{item.name}</p> */}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* My Account Section */}
+        <div className="text-center sm:text-left">
+          <h4 className="text-lg md:text-xl font-bold mb-2 md:mb-4">
+            My Account
+          </h4>
+          <ul className="space-y-2">
+            {accountLinks.map((item) => (
+              <li key={item.name}>
+                <span
+                  onClick={() => navigate(item.path)}
+                  className="text-sm hover:text-primary cursor-pointer"
+                >
+                  {item.name}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* App Download Section */}
+        <div className="text-center sm:text-left">
+          <h4 className="text-lg md:text-xl font-bold mb-2 md:mb-4">
+            Download Our App
+          </h4>
+          <div className="flex flex-col gap-3 items-center sm:items-start sm:justify-start">
+            {/* <a href="#" className="flex flex-col items-center sm:items-start"> */}
+            <img
+              src={GooglePlay}
+              alt="Google Play"
+              className="w-28 md:w-32 blur-sm opacity-80"
+            />
+            {/* </a> */}
+            {/* <a href="#" className="flex flex-col items-center sm:items-start"> */}
+            <img
+              src={ApplePlay}
+              alt="App Store"
+              className="w-28 md:w-32 blur-sm opacity-80"
+            />
+            <span className="text-sm md:text-base font-semibold text-gray-600 mt-2">
+              Coming Soon...!
+            </span>
+            {/* </a> */}
+          </div>
+        </div>
+
+        {/* Social Icons and Footer Note */}
+        <div className="col-span-full border-t border-gray-300 pt-6 mt-6 text-center lg:text-left">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div className="flex gap-4 justify-center lg:justify-start">
+              {[
+                {
+                  id: "whatsapp",
+                  icon: "whatsapp",
+                  style:
+                    "bg-white duration-500 w-10 h-10 border-2 rounded-full border-green-600 transform hover:-translate-y-2 text-green-500 hover:bg-green-600 hover:text-white",
+                  link: "https://wa.me/8181819368", // Replace with your actual WhatsApp link
+                },
+                {
+                  id: "instagram",
+                  icon: "instagram",
+                  style:
+                    "bg-white sticky duration-500 border-2 border-pink-500 bg-gradient-to-b fixed w-10 h-10 transform hover:-translate-y-2 text-pink-600 hover:from-indigo-600 hover:via-pink-600 hover:to-yellow-500 hover:text-white rounded-full duration-500",
+                  link: "https://www.instagram.com/sambhaaronline?igsh=c2w5anRpNjMzYmIx",
+                },
+                {
+                  id: "facebook",
+                  icon: "facebook-f",
+                  style:
+                    "bg-white sticky duration-500 border-2 border-blue-600 fixed w-10 h-10 transform hover:-translate-y-2 text-blue-600 hover:bg-blue-600 hover:text-white rounded-full",
+                  link: "https://www.facebook.com/share/1MwKbFjXBe/?mibextid=JRoKGi",
+                },
+                {
+                  id: "linkedin",
+                  icon: "linkedin",
+                  style:
+                    "bg-white transform hover:-translate-y-2 border-2 w-10 h-10 rounded-full duration-500 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white",
+                  link: "https://www.linkedin.com", // Replace with your actual LinkedIn link
+                },
+                {
+                  id: "youtube",
+                  icon: "youtube",
+                  style:
+                    "bg-white transform hover:-translate-y-2 border-2 w-10 h-10 rounded-full duration-500 text-red-600 border-red-600 hover:bg-red-600 hover:text-white",
+                  link: "http://www.youtube.com/@SAMBHAAROnlineSupermarket", // Replace with your actual YouTube link
+                },
+              ].map(({ id, icon, style, link }) => (
+                <a
+                  key={id}
+                  id={id}
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={style}
+                >
+                  <button className="w-full h-full">
+                    <i className={`fab fa-${icon} text-lg`}></i>
+                  </button>
+                </a>
+              ))}
+            </div>
+            <p className="text-sm text-gray-600">
+              &copy; {new Date().getFullYear()} Sambhaar.com. All Rights
+              Reserved. | Powered by 
+              <a
+                href="https://maverico.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+                style={{color: 'blue',paddingLeft: '3px'}}
+              >
+                Maverico.com
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

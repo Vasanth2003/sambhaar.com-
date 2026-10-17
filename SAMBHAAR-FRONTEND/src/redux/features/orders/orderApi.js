@@ -1,0 +1,62 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { getBaseUrl } from '../../../util/baseURL';
+
+
+const orderApi = createApi({
+    reducerPath: 'orderApi',
+    baseQuery: fetchBaseQuery({
+        baseUrl: `${getBaseUrl()}/api/orders`,
+        credentials: 'include'
+    }),
+    tagTypes: ["Order"],
+    endpoints: (builder) => ({
+        getOrdersByEmail: builder.query({
+            query: (email) => ({
+                url: `/${email}`,
+                method: 'GET'
+            }),
+            providesTags: ['Order']
+        }),
+        getOrdersByMobileNumber: builder.query({
+            query: (number) => ({
+                url: `/getOrders/${number}`,
+                method: 'GET'
+            }),
+            providesTags: ['Order']
+        }),
+        getOrderById: builder.query({
+            query: (orderId) => ({
+                url: `/order/${orderId}`,
+                method: 'GET'
+            }),
+            providesTags: ['Order']
+        }),
+        getAllOrders: builder.query({
+            query: () => (
+                {
+                    url: '',
+                    method: 'GET',  
+                }
+            ),
+            providesTags: ['Order']
+        }),
+        updateOrderStatus: builder.mutation({
+            query: ({id, orderStatus}) => ({
+                url: `/update-order-status/${id}`,
+                method: 'PATCH',
+                body: { orderStatus },
+            }),
+            invalidatesTags: ['Order']
+        }),
+        deleteOrder: builder.mutation({
+            query: (id) => ({
+                url: `/delete-order/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Order']
+        })
+    })
+})
+
+export const {useGetOrdersByMobileNumberQuery, useGetOrdersByEmailQuery, useGetOrderByIdQuery, useGetAllOrdersQuery, useUpdateOrderStatusMutation, useDeleteOrderMutation} = orderApi;
+export default orderApi;
