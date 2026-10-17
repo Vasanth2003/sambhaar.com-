@@ -292,6 +292,7 @@ app.use(
       "http://localhost:5173",
       "https://www.sambhaar.com",
       "https://sambhaar.com",
+      "https://sambhaar-h5lajs8ex-maverico.vercel.app"
     ],
     credentials: true,
   })
